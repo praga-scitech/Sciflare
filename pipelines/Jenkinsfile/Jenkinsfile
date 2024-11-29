@@ -1,0 +1,69 @@
+@Library('shared-libraries') _
+
+pipeline {
+    agent any
+    environment {
+        SONARQUBE_PROJECT_KEY = 'your-sonarqube-project-key'
+        VERSION_FILE = 'version.txt'
+    }
+    stages {
+        stage('Increment Version') {
+            steps {
+                script {
+                    // Increment version and store it in version.txt
+                    def newVersion = incrementVersion(versionFile: VERSION_FILE)
+                    env.BUILD_VERSION = newVersion
+                }
+            }
+        }
+
+    //     stage('Build') {
+    //         steps {
+    //             script {
+    //                 // Assuming Maven, adjust for Gradle or others
+    //                 sh "mvn clean install -Dversion=${env.BUILD_VERSION}"
+    //             }
+    //         }
+    //     }
+
+    //     stage('SonarQube Analysis') {
+    //         steps {
+    //             script {
+    //                 // Run SonarQube scan
+    //                 sonarQubeScan(sonarQubeProjectKey: SONARQUBE_PROJECT_KEY)
+    //             }
+    //         }
+    //     }
+
+    //     stage('Create Artifacts') {
+    //         steps {
+    //             script {
+    //                 // Archive the build artifacts and include SonarQube report
+    //                 archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+    //                 // If needed, archive the SonarQube report
+    //                 archiveArtifacts artifacts: '**/target/sonar-report/**', allowEmptyArchive: true
+    //             }
+    //         }
+    //     }
+
+    //     stage('Deploy') {
+    //         parallel {
+    //             stage('Deploy to Dev') {
+    //                 steps {
+    //                     deploy('dev')
+    //                 }
+    //             }
+    //             stage('Deploy to QA') {
+    //                 steps {
+    //                     deploy('qa')
+    //                 }
+    //             }
+    //             stage('Deploy to Prod') {
+    //                 steps {
+    //                     deploy('prod')
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+}
